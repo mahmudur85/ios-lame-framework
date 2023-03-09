@@ -81,7 +81,7 @@ then
 		    fi
 		else
 		    PLATFORM="iPhoneOS"
-		    SIMULATOR=
+		    SIMULATOR="-miphoneos-version-min=15.0"
                     HOST=arm-apple-darwin
 		fi
 
