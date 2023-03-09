@@ -103,31 +103,36 @@ then
 	done
 fi
 
-if [ "$LIPO" ]
-then
-	echo "building fat binaries..."
-	mkdir -p $FAT/lib
-	set - $ARCHS
-	CWD=`pwd`
-	cd $THIN/$1/lib
-	for LIB in *.a
-	do
-		cd $CWD
-		lipo -create `find $THIN -name $LIB` -output $FAT/lib/$LIB
-	done
+# if [ "$LIPO" ]
+# then
+# 	echo "building fat binaries..."
+# 	mkdir -p $FAT/lib
+# 	set - $ARCHS
+# 	CWD=`pwd`
+# 	cd $THIN/$1/lib
+# 	for LIB in *.a
+# 	do
+# 		cd $CWD
+# 		lipo -create `find $THIN -name $LIB` -output $FAT/lib/$LIB
+# 	done
 
-	cd $CWD
-	cp -rf $THIN/$1/include $FAT
-fi
+# 	cd $CWD
+# 	cp -rf $THIN/$1/include $FAT
+# fi
 
 if [ "$FRAMEWORK" ]
 then
-	rm -rf lame.framework
+	rm -rf lame.framework liblame
+	
 	echo "building lame.framework..."
 	mkdir -p lame.framework/Headers/
 	cp -rf $FAT/include/lame/* lame.framework/Headers/
 	cp -f $FAT/lib/libmp3lame.a lame.framework/lame
+
+	mkdir -p liblame/include/
+	cp -rf $FAT/include/lame/* liblame/include/
+	cp -f $FAT/lib/libmp3lame.a liblame/
 fi
 
 #   clean tmp directories
-rm -rf $SOURCE $FAT $SCRATCH $THIN
+# rm -rf $SOURCE $FAT $SCRATCH $THIN
